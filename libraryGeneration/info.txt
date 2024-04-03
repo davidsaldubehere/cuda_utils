@@ -1,0 +1,11 @@
+Steps to create a static c++ lib
+
+
+Creates the object file
+g++ -c mylibrary.cpp -o mylibrary.o
+
+Create the static library
+ar rcs libmylibrary.a mylibrary.o
+
+Compile and link
+g++ main.cpp -L. -lmylibrary -o myprogram
