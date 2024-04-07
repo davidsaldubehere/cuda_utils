@@ -4,7 +4,7 @@
 
 __global__ void vectorAdd(int *a, int *b, int *c, int N) {
   // Calculate global thread thread ID
-  int tid = GET_GLOBAL_THREAD_ID();
+  int tid = GET_GLOBAL_THREAD_IDX();
 
   // Boundary check
   if (tid < N) {
