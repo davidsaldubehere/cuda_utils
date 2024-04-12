@@ -108,7 +108,6 @@ int main()
 
     int j, k;
     //Time the run and call GPU Bitonic Kernel
-    cudaEventRecord(startGPU);
     for (k = 2; k <= size; k <<= 1)
     {
         for (j = k >> 1; j > 0; j = j >> 1)
