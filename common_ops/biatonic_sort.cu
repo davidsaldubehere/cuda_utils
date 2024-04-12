@@ -118,8 +118,6 @@ int main()
     }
     //Transfer Sorted array back to CPU
     cudaMemcpy(arr, gpuArrbiton, size * sizeof(int), cudaMemcpyDeviceToHost);
-    cudaEventSynchronize(stopGPU);
-    cudaEventElapsedTime(&millisecondsGPU, startGPU, stopGPU);
 
     // Display sorted GPU array
     std::cout << "\n\nSorted GPU array: ";
