@@ -15,3 +15,5 @@ or just compile with nvcc serperately
 nvcc -c vector_add.cu -o vector_add.o
 
 nvcc ./common_ops/vector_add.o main.o -o final
+
+nvcc ./common_ops/vector_add.o ./common_ops/matrix_mul.o ./common_ops/biatonic_sort.o main.o -o final

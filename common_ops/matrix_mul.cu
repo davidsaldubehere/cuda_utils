@@ -1,6 +1,5 @@
 #include "matrix_mul.h"
 #include <iostream>
-#include <vector>
 
 __global__ void matrixMulKernel(const int *a, const int *b, int *c, int N) {
   int row = blockIdx.y * blockDim.y + threadIdx.y;

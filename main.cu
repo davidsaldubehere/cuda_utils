@@ -1,9 +1,27 @@
 #include "./common_ops/vector_add.h"
 #include "./common_ops/matrix_mul.h"
+#include "./common_ops/biatonic_sort.h"
 #include <cassert>
 #include <iostream>
 #include <vector>
+//Function to print array
+void printArray(int* arr, int size) 
+{
+    for (int i = 0; i < size; ++i)
+        std::cout << arr[i] << " ";
+    std::cout << std::endl;
+}
 
+//Automated function to check if array is sorted
+bool isSorted(int* arr, int size) 
+{
+    for (int i = 1; i < size; ++i) 
+    {
+        if (arr[i] < arr[i - 1])
+            return false;
+    }
+    return true;
+}
 int main() {
 
     /*Vector addition*/
@@ -55,6 +73,45 @@ int main() {
         // Check against the CPU result
         assert(tmp == f[i * N + j]); //takes a while
         }
-  }
+    }
+    /*sort*/
+    const int size = 64;
+        // Initialize the array with random values
+    int arr[size];
+
+    srand(static_cast<unsigned int>(time(nullptr)));
+    for (int i = 0; i < size; ++i) 
+    {
+        arr[i] = rand() % 100;
+    }
+    std::cout << "\n\nUnsorted array: ";
+    if (size <= 100) 
+    {
+        printArray(arr, size);
+    }
+    else 
+    {
+        printf("\nToo Big to print. Check Variable. Automated isSorted Checker will be implemented\n");
+    }
+
+
+    sort(arr, size);
+
+    std::cout << "\n\nSorted GPU array: ";
+    if (size <= 100) 
+    {
+        printArray(arr, size);
+    }
+    else {
+        printf("\nToo Big to print. Check Variable. Automated isSorted Checker will be implemented\n");
+    }
+
+    
+    //Run the array with the automated isSorted checker
+    if (isSorted(arr, size))
+        std::cout << "\n\nSORT CHECKER RUNNING - SUCCESFULLY SORTED GPU ARRAY" << std::endl;
+    else
+        std::cout << "SORT CHECKER RUNNING - !!! FAIL !!!" << std::endl;
+
     return 0;
 }

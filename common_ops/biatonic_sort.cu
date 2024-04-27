@@ -39,58 +39,15 @@ __global__ void bitonicSortGPU(int* arr, int j, int k)
 }
 
 
-//Function to print array
-void printArray(int* arr, int size) 
-{
-    for (int i = 0; i < size; ++i)
-        std::cout << arr[i] << " ";
-    std::cout << std::endl;
-}
-
-//Automated function to check if array is sorted
-bool isSorted(int* arr, int size) 
-{
-    for (int i = 1; i < size; ++i) 
-    {
-        if (arr[i] < arr[i - 1])
-            return false;
-    }
-    return true;
-}
 
 //MAIN PROGRAM
-int main()
-{   
-    int size = 128;
-    
-    //Create CPU based Arrays
-    int* arr = new int[size];
-    int* carr = new int[size];
-    int* temp = new int[size];
-
+void sort(int* arr, int size)
+{       
     //Create GPU based arrays
     int* gpuArrmerge;
     int* gpuArrbiton;
     int* gpuTemp;
-
-    // Initialize the array with random values
-    srand(static_cast<unsigned int>(time(nullptr)));
-    for (int i = 0; i < size; ++i) 
-    {
-        arr[i] = rand() % 100;
-        carr[i] = arr[i];
-    }
-
-    //Print unsorted array 
-    std::cout << "\n\nUnsorted array: ";
-    if (size <= 100) 
-    {
-        printArray(arr, size);
-    }
-    else 
-    {
-        printf("\nToo Big to print. Check Variable. Automated isSorted Checker will be implemented\n");
-    }
+    
 
     // Allocate memory on GPU
     cudaMalloc((void**)&gpuArrmerge, size * sizeof(int));
@@ -118,33 +75,10 @@ int main()
     //Transfer Sorted array back to CPU
     cudaMemcpy(arr, gpuArrbiton, size * sizeof(int), cudaMemcpyDeviceToHost);
 
-    // Display sorted GPU array
-    std::cout << "\n\nSorted GPU array: ";
-    if (size <= 100) 
-    {
-        printArray(arr, size);
-    }
-    else {
-        printf("\nToo Big to print. Check Variable. Automated isSorted Checker will be implemented\n");
-    }
-
-    
-    //Run the array with the automated isSorted checker
-    if (isSorted(arr, size))
-        std::cout << "\n\nSORT CHECKER RUNNING - SUCCESFULLY SORTED GPU ARRAY" << std::endl;
-    else
-        std::cout << "SORT CHECKER RUNNING - !!! FAIL !!!" << std::endl;
-
     //Destroy all variables
     delete[] arr;
-    delete[] carr;
-    delete[] temp;
-
     //End
     cudaFree(gpuArrmerge);
     cudaFree(gpuArrbiton);
     cudaFree(gpuTemp);
-
-    std::cout << "\n------------------------------------------------------------------------------------\n||||| END. YOU MAY RUN THIS AGAIN |||||\n------------------------------------------------------------------------------------";
-    return 0;
 }
