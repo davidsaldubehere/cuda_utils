@@ -29,9 +29,7 @@ __global__ void bitonicSortGPU(int* arr, int j, int k)
 
 
 //MAIN PROGRAM
-void sort(int* arr, int size)
-{       
-    //Create GPU based arrays
+void sort(int* arr, int size) {       
     int* gpuArrmerge;
     int* gpuArrbiton;
     int* gpuTemp;
@@ -47,14 +45,10 @@ void sort(int* arr, int size)
     int blocksPerGrid = (size + threadsPerBlock - 1) / threadsPerBlock;
     int j, k;
     //Time the run and call GPU Bitonic Kernel
-    for (k = 2; k <= size; k <<= 1)
-    {
-        for (j = k >> 1; j > 0; j = j >> 1)
-        {
+    for (k = 2; k <= size; k <<= 1){
+        for (j = k >> 1; j > 0; j = j >> 1){
             bitonicSortGPU << <blocksPerGrid, threadsPerBlock >> > (gpuArrbiton, j, k);
-        }
-    }
-    //Transfer Sorted array back to CPU
+        }    }
     cudaMemcpy(arr, gpuArrbiton, size * sizeof(int), cudaMemcpyDeviceToHost);
     //Destroy all variables
     delete[] arr;
